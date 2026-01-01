@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZYNTRIAX Contact Form</title>
+    <link rel="icon" href="logo.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffffff, #f5f5f5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 999;
+        }
+
+        .loader-screen img {
+            width: 350px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .progress-box {
+            width: 260px;
+            height: 10px;
+            border-radius: 10px;
+            background: #e6e6e6;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(135deg, #d4af37, #b8962e);
+            animation: loading 3s linear forwards;
+        }
+
+        @keyframes loading {
+            to { width: 100%; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 35px;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 18px;
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.35);
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .logo-container img {
+            width: 200px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #d4af37;
+        }
+
+        p {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+            height: 90px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #d4af37, #b8962e);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .error {
+            color: #c62828;
+            font-size: 13px;
+            display: none;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .submit-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .submit-overlay img {
+            width: 350px;
+            animation: logoPop 1.2s ease forwards;
+        }
+
+        .submit-overlay h3 {
+            margin-top: 15px;
+            color: #b8962e;
+            opacity: 0;
+            animation: textFade 1s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes logoPop {
+            0% { opacity: 0; transform: scale(0.3); }
+            70% { transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes textFade {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader-screen" id="loader">
+    <img src="logo.png" alt="ZYNTRIAX">
+    <div class="progress-box">
+        <div class="progress-bar"></div>
+    </div>
+</div>
+
+<!-- FORM -->
+<div class="form-container" id="formBox">
+
+    <div class="logo-container">
+        <img src="logo.png" alt="ZYNTRIAX Logo">
+    </div>
+
+    <h2>WELCOME</h2>
+    <p>Connect with us for AI solutions & services</p>
+
+    <!-- ✅ GETFORM ACTION INSERTED HERE -->
+    <form action="https://formspree.io/f/mkoggrdk" method="POST">
+
+        <div class="error" id="errorMsg">
+            Please fill all required fields correctly.
+        </div>
+
+        <label>Full Name *</label>
+        <input type="text" name="name" id="name">
+
+        <label>Email Address *</label>
+        <input type="email" name="email" id="email">
+
+        <label>Phone Number *</label>
+        <input type="tel" name="phone" id="phone">
+
+        <label>Address *</label>
+        <input type="text" name="address" id="address">
+
+        <label>Interested Service</label>
+        <select name="service" id="service">
+            <option value="">Select a service</option>
+            <option>AI Website Development</option>
+            <option>Accounting Software</option>
+        </select>
+
+        <label>Message</label>
+        <textarea name="message" id="message"></textarea>
+
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+    <div class="submit-overlay" id="submitOverlay">
+        <img src="logo.png">
+        <h3>Thank You For Contacting With Us</h3>
+    </div>
+</div>
+
+<script>
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("formBox").style.display = "block";
+        }, 3200);
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function () {
+
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+
+        let errorMsg = document.getElementById("errorMsg");
+        errorMsg.style.display = "none";
+
+        if (name === "" || email === "" || phone === "") {
+            errorMsg.style.display = "block";
+            event.preventDefault();
+            return;
+        }
+
+        document.getElementById("submitOverlay").style.display = "flex";
+    });
+</script>
+
+</body>
+</html>
